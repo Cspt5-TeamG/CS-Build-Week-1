@@ -62,13 +62,6 @@ def move(request):
 
 
 @csrf_exempt
-@api_view(['GET'])
-def rooms(request):
-    rooms = Room.objects.all()
-    return JsonResponse({'rooms': list(rooms.values())})
-
-
-@csrf_exempt
 @api_view(["POST"])
 def say(request):
     # IMPLEMENT
