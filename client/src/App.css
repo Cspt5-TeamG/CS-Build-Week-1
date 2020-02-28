@@ -8,6 +8,14 @@ body .map {
   position: relative;
   padding: 20px;
   margin: 0 auto;
-  border: 2px solid green;
+  border: 2px solid rgb(19,134,49);
   box-sizing: content-box;
+}
+
+
+img.arrowsKeys {
+  width: 9em;
+  height: 6em;
+  margin-top: 57%;
+
 }
