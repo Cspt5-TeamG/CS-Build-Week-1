@@ -4,6 +4,7 @@ import handleMovement from './features/movement'
 import { MAP_HEIGHT, MAP_WIDTH } from './config/constants'
 import './App.css'
 import ArrowKeys from "./arrowkeys.png"
+import Login from './components/Login';
 
 
 
@@ -17,6 +18,7 @@ function App() {
       }}
     >
       <Player />
+      {/* <Login /> */}
       <img className="arrowsKeys" src={ArrowKeys} alt="Arrow keys" />
     </div>
   )
