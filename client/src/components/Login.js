@@ -15,10 +15,7 @@ import { withStyles } from '@material-ui/core';
 
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+  
   render() {
     return (
     <Container component="main" maxWidth="xs">
