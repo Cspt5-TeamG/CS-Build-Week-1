@@ -67,8 +67,25 @@ def say(request):
     # IMPLEMENT
     return JsonResponse({'error': "Not yet implemented"}, safe=True, status=500)
 
-
-@api_view(['GET'])
+@csrf_exempt
+@api_view(["GET"])
 def rooms(request):
     rooms = Room.objects.all()
-    return JsonResponse({'rooms': list(rooms.values())})
+    roomsArray = []
+    for i in range(len(rooms)):
+        roomsArray.append({'id': rooms[i].id, 
+        'title': rooms[i].title, 
+        'description': rooms[i].description, 
+        'can_make_money': rooms[i].can_make_money,
+        'n_to': rooms[i].n_to, 
+        's_to': rooms[i].s_to, 
+        'e_to': rooms[i].e_to, 
+        'w_to': rooms[i].w_to})
+    return JsonResponse({'rooms': roomsArray}, safe=True)
+
+
+
+# @api_view(['GET'])
+# def rooms(request):
+#     rooms = Room.objects.all()
+#     return JsonResponse({'rooms': list(rooms.values())})
