@@ -75,8 +75,7 @@ def rooms(request):
     for i in range(len(rooms)):
         roomsArray.append({'id': rooms[i].id, 
         'title': rooms[i].title, 
-        'description': rooms[i].description, 
-        'can_make_money': rooms[i].can_make_money,
+        'description': rooms[i].description,
         'n_to': rooms[i].n_to, 
         's_to': rooms[i].s_to, 
         'e_to': rooms[i].e_to, 
