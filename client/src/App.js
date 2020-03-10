@@ -10,15 +10,17 @@ import Register from './components/Register'
 
 function App() {
   return (
-    <div
-      className='map'
-      style={{
-        height: MAP_HEIGHT,
-        width: MAP_WIDTH,
-      }}
-    >
-      <Player />
-      <img className='arrowsKeys' src={ArrowKeys} alt='Arrow keys' />
+    <div className='game'>
+      <div
+        className='map'
+        style={{
+          height: MAP_HEIGHT,
+          width: MAP_WIDTH,
+        }}
+      >
+        <Player />
+        <img className='arrowsKeys' src={ArrowKeys} alt='Arrow keys' />
+      </div>
       <div className='auth-forms'>
         <Login />
         <Register />

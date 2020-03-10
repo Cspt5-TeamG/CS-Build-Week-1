@@ -1,28 +1,20 @@
 import store from '../../config/store'
-
-function handleDirctionMove(e, direction) {
-  const state = store.getState()
-  if (!state.player.isLoggedIn) {
-    return alert('Must log in before playing!')
-  }
-  console.log(`Moving ${direction}!`)
-  store.dispatch({ type: 'MOVE_PLAYER', payload: direction })
-  e.preventDefault()
-}
+import { MOVEMENTS } from '../../config/constants'
+import { handleDirectionMove } from '../player/reducer'
 
 function handleKeyDown(e) {
   switch (e.keyCode) {
     case 40:
-      handleDirctionMove(e, 'down')
+      handleDirectionMove(MOVEMENTS.NORTH)(store.dispatch, store.getState)
       return
     case 37:
-      handleDirctionMove(e, 'left')
+      handleDirectionMove(MOVEMENTS.WEST)(store.dispatch, store.getState)
       return
     case 39:
-      handleDirctionMove(e, 'right')
+      handleDirectionMove(MOVEMENTS.EAST)(store.dispatch, store.getState)
       return
     case 38:
-      handleDirctionMove(e, 'up')
+      handleDirectionMove(MOVEMENTS.SOUTH)(store.dispatch, store.getState)
       return
     default:
       console.log(e.keyCode)

@@ -1,4 +1,10 @@
-import { PLAYER_SIZE, MAP_HEIGHT, MAP_WIDTH } from '../../config/constants'
+import {
+  PLAYER_SIZE,
+  MAP_HEIGHT,
+  MAP_WIDTH,
+  MOVE_ENDPOINT,
+  MOVEMENTS,
+} from '../../config/constants'
 
 const initialState = {
   isLoggedIn: false,
@@ -6,40 +12,49 @@ const initialState = {
   position: [0, 0],
 }
 
-function respectBoundaries(oldPos, newPos) {
-  return newPos[0] >= 0 &&
-    newPos[0] <= MAP_WIDTH - PLAYER_SIZE &&
-    newPos[1] >= 0 &&
-    newPos[1] <= MAP_HEIGHT - PLAYER_SIZE
-    ? newPos
-    : oldPos
+async function getNewPosition(state, direction) {
+  const { authToken } = state.player
+  const response = await fetch(MOVE_ENDPOINT, {
+    method: 'POST',
+    body: JSON.stringify({ direction }),
+    headers: {
+      Authorization: `Token ${authToken}`,
+      'Content-Type': 'application/json',
+    },
+  })
+
+  const { room, error_msg, players } = await response.json()
+  if (error_msg) {
+    alert(error_msg)
+    return state.player.position
+  } else {
+    const newPosition = [
+      room.coordinates.x * PLAYER_SIZE,
+      room.coordinates.y * PLAYER_SIZE,
+    ]
+    return newPosition
+  }
 }
 
-function getNewPosition(oldPos, direction) {
-  switch (direction) {
-    case 'left':
-      return respectBoundaries(oldPos, [oldPos[0] - PLAYER_SIZE, oldPos[1]])
-
-    case 'right':
-      return respectBoundaries(oldPos, [oldPos[0] + PLAYER_SIZE, oldPos[1]])
-
-    case 'up':
-      return respectBoundaries(oldPos, [oldPos[0], oldPos[1] - PLAYER_SIZE])
-
-    case 'down':
-      return respectBoundaries(oldPos, [oldPos[0], oldPos[1] + PLAYER_SIZE])
-
-    default:
-      return [oldPos[0], oldPos[1]]
+export const handleDirectionMove = direction => async (dispatch, getState) => {
+  const state = getState()
+  dispatch({ type: 'MOVE_PLAYER_START' })
+  if (!state.player.isLoggedIn) {
+    return alert('Must log in before playing!')
   }
+  console.log(`Moving ${direction}!`)
+  const newPosition = await getNewPosition(state, direction)
+  dispatch({ type: 'MOVE_PLAYER', payload: newPosition })
 }
 
 const playerReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'MOVE_PLAYER_START':
+      return { ...state }
     case 'MOVE_PLAYER':
       return {
         ...state,
-        position: getNewPosition(state.position, action.payload),
+        position: action.payload,
       }
     case 'LOGIN':
       return {
