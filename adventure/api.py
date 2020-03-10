@@ -55,7 +55,7 @@ def move(request):
         #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
         # for p_uuid in nextPlayerUUIDs:
         #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-        return JsonResponse({'name': player.user.username, 'title': nextRoom.title, 'description': nextRoom.description, 'players': players, 'error_msg': ""}, safe=True)
+        return JsonResponse({'name': player.user.username, 'title': nextRoom.title, 'description': nextRoom.description, 'players': players, 'error_msg': "", 'room': nextRoom.getInfo()}, safe=True)
     else:
         players = room.playerNames(player_id)
         return JsonResponse({'name': player.user.username, 'title': room.title, 'description': room.description, 'players': players, 'error_msg': "You cannot move that way."}, safe=True)
@@ -73,15 +73,14 @@ def say(request):
 #     rooms = Room.objects.all()
 #     roomsArray = []
 #     for i in range(len(rooms)):
-#         roomsArray.append({'id': rooms[i].id, 
-#         'title': rooms[i].title, 
+#         roomsArray.append({'id': rooms[i].id,
+#         'title': rooms[i].title,
 #         'description': rooms[i].description,
-#         'n_to': rooms[i].n_to, 
-#         's_to': rooms[i].s_to, 
-#         'e_to': rooms[i].e_to, 
+#         'n_to': rooms[i].n_to,
+#         's_to': rooms[i].s_to,
+#         'e_to': rooms[i].e_to,
 #         'w_to': rooms[i].w_to})
 #     return JsonResponse({'rooms': roomsArray}, safe=True)
-
 
 
 @api_view(['GET'])
